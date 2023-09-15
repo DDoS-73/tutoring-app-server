@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js",
+    "start": "node index.js",
     "build": "npm i",
-    "nodemon": "nodemon ./app.js"
+    "nodemon": "nodemon index.js"
   },
   "dependencies": {
     "express": "~4.16.1",
