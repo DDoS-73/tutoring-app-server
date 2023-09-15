@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
@@ -23,11 +22,6 @@ app.use((req, res, next) => {
 app.use('/events', eventsRouter);
 app.use('/clients', clientsRouter);
 app.use('/earnings', earningsRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
 
 // error handler
 app.use(function(err, req, res, next) {
