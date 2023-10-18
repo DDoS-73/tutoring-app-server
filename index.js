@@ -9,7 +9,7 @@ const earningsRouter = require('./routes/earnings');
 const index = express();
 
 index.use(cors({
-  origin: 'https://tutoring-app-client.vercel.app/'
+  origin: '*'
 }));
 
 index.use(logger('dev'));
