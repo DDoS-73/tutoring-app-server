@@ -1,12 +1,16 @@
 const express = require('express');
 const logger = require('morgan');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');const cors = require('cors');
 
 const eventsRouter = require('./routes/events');
 const clientsRouter = require('./routes/clients');
 const earningsRouter = require('./routes/earnings');
 
 const index = express();
+
+index.use(cors({
+  origin: 'https://tutoring-app-client.vercel.app/'
+}));
 
 index.use(logger('dev'));
 index.use(express.json());
