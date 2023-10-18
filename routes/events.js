@@ -1,12 +1,13 @@
 const { Router} = require('express');
 const { createEvent, getEventsByWeek, changePaidStatus} = require('../services/eventService');
 const router = new Router();
+const { allowCors } = require('../allowCors')
 
 /* GET users listing. */
-router.get('/', getEventsByWeek);
+router.get('/', allowCors(getEventsByWeek));
 
-router.post('/', createEvent);
+router.post('/', allowCors(createEvent));
 
-router.patch('/changePaidStatus', changePaidStatus)
+router.patch('/changePaidStatus', allowCors(changePaidStatus))
 
 module.exports = router;
