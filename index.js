@@ -16,13 +16,6 @@ index.use(logger('dev'));
 index.use(express.json());
 index.use(express.urlencoded({ extended: false }));
 
-index.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  next();
-});
-
 index.use('/events', eventsRouter);
 index.use('/clients', clientsRouter);
 index.use('/earnings', earningsRouter);
