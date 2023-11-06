@@ -48,6 +48,17 @@ const changePaidStatus = async (req, res) => {
     return res.json(newEvent);
 }
 
+const deleteEvent = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await Event.findByIdAndDelete(id);
+        res.json({ message: "Success" });
+    } catch (e) {
+        res.status(400).json(e);
+    }
+
+}
+
 const createClient = async (name) => {
     const client = await Client.findOne({ name }).exec();
     if (client) {
@@ -76,5 +87,6 @@ module.exports = {
     createEvent,
     getEventsByWeek,
     getMondayAndSunday,
-    changePaidStatus
+    changePaidStatus,
+    deleteEvent
 };
