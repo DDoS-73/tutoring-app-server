@@ -50,18 +50,14 @@ const changePaidStatus = async (req, res) => {
 
 const deleteEvent = async (req, res) => {
     const { id } = req.params;
-    try {
-        const res = await Event.findByIdAndDelete(id);
-        if(res.repeatable) {
-            const events = await Event.find({ client: res.client, startTime: res.startTime, finishTime: res.finishTime });
-            events.forEach(async (event) => {
-                await Event.findByIdAndDelete(event._id);
-            });
-        }
-        res.json({ message: "Success" });
-    } catch (e) {
-        res.status(400).json(e);
+    const event = await Event.findByIdAndDelete(id);
+    if(event.repeatable) {
+        const events = await Event.find({ client: event.client, startTime: event.startTime, finishTime: event.finishTime });
+        events.forEach(async (event) => {
+            await Event.findByIdAndDelete(event._id);
+        });
     }
+    res.json({ message: "Success" });
 
 }
 
