@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
-const mongoose = require('mongoose');const cors = require('cors');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const eventsRouter = require('./routes/events');
 const clientsRouter = require('./routes/clients');
@@ -9,7 +10,8 @@ const earningsRouter = require('./routes/earnings');
 const index = express();
 
 index.use(cors({
-  origin: '*'
+  origin: '*',
+  credentials: true,
 }));
 
 index.use(logger('dev'));
