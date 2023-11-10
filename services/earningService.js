@@ -21,11 +21,19 @@ const getMonthEarnings = async (req, res) => {
     ]);
 
     const actualMonthEarnings = await Event.aggregate([
-        {$match: {date: {
+        {
+            $match: {
+                date: {
                     $gte: firstDay,
-                    $lte: new Date().getMonth() <= month && new Date().getFullYear() <= year ? new Date() : lastDay
-                }}},
-        { $group: { _id: 0, sum : { $sum: "$price" } } }
+                    $lte: lastDay
+                },
+                isPaid: { $eq: true }
+            }
+        },
+        {
+            $group:
+                { _id: 0, sum : { $sum: "$price" } }
+        }
     ]);
     return res.json({ predictedEarnings: predictedMonthEarnings[0]?.sum || 0, actualEarnings: actualMonthEarnings[0]?.sum || 0 });
 }
@@ -33,7 +41,6 @@ const getMonthEarnings = async (req, res) => {
 const getWeekEarnings = async (req, res) => {
     const dayOfWeek = new Date(req.query.dayOfWeek);
     const [monday, sunday] = getMondayAndSunday(dayOfWeek);
-    console.log(monday, sunday)
     const predictedWeekEarnings = await Event.aggregate([
         {$match: {date: {
                     $gte: monday,
@@ -41,24 +48,19 @@ const getWeekEarnings = async (req, res) => {
                 }}},
         { $group: { _id: 0, sum : { $sum: "$price" } } }
     ]);
-    console.log(checkDateDifference(monday))
     const actualWeekEarnings = await Event.aggregate([
-        {$match: {date: {
+        {
+            $match: {
+                date: {
                     $gte: monday,
-                    $lte:
-                        checkDateDifference(monday) < -7
-                            ? sunday
-                            : new Date()
-                }}},
+                    $lte: sunday
+                },
+                isPaid: { $eq: true }
+            }
+        },
         { $group: { _id: 0, sum : { $sum: "$price" } } }
     ]);
     return res.json({ predictedEarnings: predictedWeekEarnings[0]?.sum || 0, actualEarnings: actualWeekEarnings[0]?.sum || 0});
-}
-
-const checkDateDifference = (date) => {
-    const date1 = new Date();
-    const timeDifference = date.getTime() - date1.getTime();
-    return Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 }
 
 module.exports = {
